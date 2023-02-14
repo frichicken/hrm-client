@@ -11,47 +11,8 @@ import {
 import { Menu } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import defaultUserAvatar from '../../../../assets/images/default-user-avatar.jpeg';
+import {useNavigate} from "react-router-dom";
 
-const items = [
-    {
-        label: 'Hồ sơ nhân viên',
-        icon: <TeamOutlined />,
-        children: [
-            {
-                label: 'Hồ sơ',
-                key: linkTypes.PROFILE,
-                icon: <UserOutlined />,
-            },
-        ],
-    },
-    {
-        label: 'Quản lý hợp đồng',
-        icon: <SolutionOutlined />,
-        children: [
-            {
-                label: 'Danh sách hợp đồng',
-                key: linkTypes.CONTRACT,
-                icon: <UnorderedListOutlined />,
-            },
-        ],
-    },
-    {
-        label: 'Danh mục',
-        icon: <UnorderedListOutlined />,
-        children: [
-            {
-                label: 'Phòng ban',
-                key: linkTypes.DEPARTMENT,
-                icon: <SolutionOutlined />,
-            },
-            {
-                label: 'Chức danh',
-                key: linkTypes.TITLE,
-                icon: <SolutionOutlined />,
-            },
-        ],
-    },
-];
 
 const Navigation = ({
     active = String(linkTypes.PROFILE),
@@ -59,6 +20,53 @@ const Navigation = ({
     collapsed,
     setCollapsed = () => {},
 }) => {
+    const navigate = useNavigate();
+
+    const items = [
+        {
+            label: 'Hồ sơ nhân viên',
+            icon: <TeamOutlined />,
+            children: [
+                {
+                    label: 'Hồ sơ',
+                    key: linkTypes.PROFILE,
+                    icon: <UserOutlined />,
+                    onClick: () => navigate("/employee-management")
+                },
+            ],
+        },
+        {
+            label: 'Quản lý hợp đồng',
+            icon: <SolutionOutlined />,
+            children: [
+                {
+                    label: 'Danh sách hợp đồng',
+                    key: linkTypes.CONTRACT,
+                    icon: <UnorderedListOutlined />,
+                    onClick: () => navigate("/contract-management")
+                },
+            ],
+        },
+        {
+            label: 'Danh mục',
+            icon: <UnorderedListOutlined />,
+            children: [
+                {
+                    label: 'Phòng ban',
+                    key: linkTypes.DEPARTMENT,
+                    icon: <SolutionOutlined />,
+                    onClick: () => navigate("/department-management")
+                },
+                {
+                    label: 'Chức danh',
+                    key: linkTypes.TITLE,
+                    icon: <SolutionOutlined />,
+                    onClick: () => navigate("/title-user")
+                },
+            ],
+        },
+    ];
+
     return (
         <Sider
             collapsible
@@ -85,10 +93,9 @@ const Navigation = ({
                 <div className='px-[16px] py-[8px] text-[#00000073]'>Danh mục</div>
             )}
             <Menu
-                defaultSelectedKeys={[active]}
+                defaultSelectedKeys={active}
                 onSelect={({ selectedKeys }) => {
-                    const [selectedKey] = selectedKeys;
-                    onSelect(selectedKey);
+                    onSelect(selectedKeys);
                 }}
                 mode='inline'
                 items={items}
